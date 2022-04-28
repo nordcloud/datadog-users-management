@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "datadog-users-management"
+version = "0.1.0"
+description = "Scripts for managing datadog users"
+authors = ["Mikołaj Matuszny <mikolaj.matuszny@nordcloud.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+datadog-api-client = "^1.10.0"
+slack-sdk = "^3.15.2"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

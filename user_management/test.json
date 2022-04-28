@@ -1,0 +1,14 @@
+{
+  "[MCT Dev] LOT_EU": {
+    "name": "[MCT Dev] LOT",
+    "api_key": "09b89d4b2e68b28b8eb9866e66a2e76f",
+    "app_key": "55ea4f266c1a9e0f8958aed62b368cf5b339ff37",
+    "location": "US"
+  },
+  "US Master Org Dev": {
+    "name": "US Master Org Dev",
+    "api_key": "87f53ca5fb5d5f68962a5167c4aeb30f",
+    "app_key": "6b09144d928289b98ce20127b0209f837b852b88",
+    "location": "US"
+  }
+}
