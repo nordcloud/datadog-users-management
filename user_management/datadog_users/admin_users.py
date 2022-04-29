@@ -14,5 +14,5 @@ ADMIN_USERS = [
     "robert.kubis@nordcloud.com",
     "datadog@nordcloud.com",
     "mc-terraform-dd@nordcloud.com",
-    "mc-terraform-dd-dev@nordcloud.com"
+    "mc-terraform-dd-dev@nordcloud.com",
 ]

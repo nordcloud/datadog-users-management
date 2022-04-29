@@ -18,14 +18,13 @@ def export_users_data(user_data):
     print("Successfully exported to json")
 
 
-def find_leavers_in_org(all_users: list[dict], slack_leavers: list[User]):
-    leavers = []
-    for user in slack_leavers:
-        for person in all_users:
-            if user.email == person["email"]:
-                leavers.append(person)
+def mark_leavers_to_disable(all_users: dict[dict], slack_leavers: list[User]):
+    leaver_emails = {user.email for user in slack_leavers}
+    for person in all_users.values():
+        if person["email"] in leaver_emails:
+            person.update({"to_disable": True})
 
-    return leavers
+    return all_users
 
 
 def handler():
@@ -35,64 +34,48 @@ def handler():
     if not SLACK_API_TOKEN:
         logger.error("Failed to obtain Slack token")
     else:
-        connect_slack = SlackConnect(SLACK_API_TOKEN)
+        connect_slack = SlackConnect()
         disabled_slack_users = connect_slack.get_users()
 
-    keys = json.load(open("test.json"))
+    with open("test.json") as file:
+        keys = json.load(file)
 
-    for details in keys.values():
-        org_name = details["name"]
-        org_location = details["location"]
-        disabled_org_users = []
-        downgraded_org_users = []
+        for details in keys.values():
+            org_name = details["name"]
+            org_location = details["location"]
 
-        print(f"Processing {org_name} - {org_location}")
+            print(f"Processing {org_name} - {org_location}")
 
-        api_session = ManageDatadogUsers(
-            details["api_key"], details["app_key"], DD_URLS[org_location]
-        )
-
-        org_roles = api_session.get_organization_roles()
-
-        (
-            all_users,
-            users_to_downgrade,
-            users_to_disable,
-        ) = api_session.get_organization_users(org_roles)
-
-        if users_to_downgrade:
-            downgraded_org_users = api_session.downgrade_external_user_to_read_only(
-                users_to_downgrade
+            dd = ManageDatadogUsers(
+                details["api_key"], details["app_key"], DD_URLS[org_location]
             )
 
-            downgraded_internal_users = (
-                api_session.downgrade_internal_admins_to_standard_role(
-                    users_to_downgrade
-                )
+            all_users = dd.get_organization_users()
+
+            downgraded_org_users = dd.downgrade_external_user_to_read_only(all_users)
+            downgraded_internal_users = dd.downgrade_internal_admins_to_standard_role(
+                all_users
             )
+
             for user in downgraded_internal_users:
                 if user not in downgraded_org_users:
                     downgraded_org_users.append(user)
 
-        leavers_list = find_leavers_in_org(all_users, disabled_slack_users)
-        if leavers_list:
-            for user in leavers_list:
-                if user not in users_to_disable:
-                    users_to_disable.append(user)
+            mark_leavers_to_disable(all_users, disabled_slack_users)
+            disabled_org_users = dd.disable_multiple_users(all_users)
 
-        if users_to_disable:
-            disabled_org_users = api_session.disable_multiple_users(users_to_disable)
+            result[org_name] = {
+                "users": all_users,
+                "location": DD_URLS[org_location],
+                "downgraded_users": downgraded_org_users,
+                "disabled_users": disabled_org_users,
+            }
 
-        result[org_name] = {
-            "users": all_users,
-            "location": DD_URLS[org_location],
-            "downgraded_users": downgraded_org_users,
-            "disabled_users": disabled_org_users,
-        }
+            print(
+                f"Organization {org_name} processed. Disabled {len(disabled_org_users)} users. Downgraded {len(downgraded_org_users)} users."
+            )
+
         export_users_data(result)
-        print(
-            f"Organization {org_name} processed. Disabled {len(disabled_org_users)} users. Downgraded {len(downgraded_org_users)} users."
-        )
 
 
 handler()

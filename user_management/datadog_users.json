@@ -1,0 +1,348 @@
+{
+  "US Master Org Dev": {
+    "disabled_users": [
+      {
+        "email": "grzegorz.prokopczyk@nordcloud.com",
+        "id": "b21cba24-c166-11ec-a903-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Standard Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      {
+        "email": "jan.kaczmarek@nordcloud.com",
+        "id": "9ce7489a-b676-11ec-940a-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      {
+        "email": "maciej.wilczynski@nordcloud.com",
+        "id": "bd117bd8-b66a-11ec-9401-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      {
+        "email": "mikolaj.matuszny.fake@nordcloud.com",
+        "id": "c337e0c8-b733-11ec-946b-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      {
+        "email": "piotr@nordcloud.com",
+        "id": "041d9ffe-c546-11ec-aa01-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      {
+        "email": "testuszny@gmail.com",
+        "id": "c367b74e-b733-11ec-946b-da7ad0900002",
+        "nordcloud_user": false,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      }
+    ],
+    "downgraded_users": [
+      {
+        "email": "matusznymikolaj@gmail.com",
+        "id": "c3630834-b733-11ec-946b-da7ad0900002",
+        "nordcloud_user": false,
+        "role": "Datadog Read Only Role",
+        "status": "Active",
+        "to_disable": false
+      },
+      {
+        "email": "mikolaj.matuszny+test@nordcloud.com",
+        "id": "c2c72771-b733-11ec-946b-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Standard Role",
+        "status": "Active",
+        "to_disable": false
+      }
+    ],
+    "location": "datadoghq.com",
+    "users": {
+      "grzegorz.prokopczyk@nordcloud.com": {
+        "email": "grzegorz.prokopczyk@nordcloud.com",
+        "id": "b21cba24-c166-11ec-a903-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Standard Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      "jan.kaczmarek@nordcloud.com": {
+        "email": "jan.kaczmarek@nordcloud.com",
+        "id": "9ce7489a-b676-11ec-940a-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      "maciej.wilczynski@nordcloud.com": {
+        "email": "maciej.wilczynski@nordcloud.com",
+        "id": "bd117bd8-b66a-11ec-9401-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      "mateusz.schoen@nordcloud.com": {
+        "email": "mateusz.schoen@nordcloud.com",
+        "id": "c7182ae5-ae9b-11ec-9011-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Active",
+        "to_disable": false
+      },
+      "matusznymikolaj@gmail.com": {
+        "email": "matusznymikolaj@gmail.com",
+        "id": "c3630834-b733-11ec-946b-da7ad0900002",
+        "nordcloud_user": false,
+        "role": "Datadog Read Only Role",
+        "status": "Active",
+        "to_disable": false
+      },
+      "mc-terraform-dd-dev@nordcloud.com": {
+        "email": "mc-terraform-dd-dev@nordcloud.com",
+        "id": "06d26d9e-b0c2-11ec-9130-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Active",
+        "to_disable": false
+      },
+      "mc-terraform-dd@nordcloud.com": {
+        "email": "mc-terraform-dd@nordcloud.com",
+        "id": "f8a3e5ae-ae9b-11ec-9011-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Active",
+        "to_disable": false
+      },
+      "mikolaj.matuszny+test@nordcloud.com": {
+        "email": "mikolaj.matuszny+test@nordcloud.com",
+        "id": "c2c72771-b733-11ec-946b-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Standard Role",
+        "status": "Active",
+        "to_disable": false
+      },
+      "mikolaj.matuszny.fake@nordcloud.com": {
+        "email": "mikolaj.matuszny.fake@nordcloud.com",
+        "id": "c337e0c8-b733-11ec-946b-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      "mikolaj.matuszny@nordcloud.com": {
+        "email": "mikolaj.matuszny@nordcloud.com",
+        "id": "4405c034-b70d-11ec-945b-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Active",
+        "to_disable": false
+      },
+      "piotr@nordcloud.com": {
+        "email": "piotr@nordcloud.com",
+        "id": "041d9ffe-c546-11ec-aa01-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      "testuszny@gmail.com": {
+        "email": "testuszny@gmail.com",
+        "id": "c367b74e-b733-11ec-946b-da7ad0900002",
+        "nordcloud_user": false,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      }
+    }
+  },
+  "[MCT Dev] LOT": {
+    "disabled_users": [
+      {
+        "email": "maciej.wilczynski@nordcloud.com",
+        "id": "7894e5aa-c077-11ec-a8c0-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      {
+        "email": "mc-terraform-dd@nordcloud.com",
+        "id": "298f6dc2-c162-11ec-a903-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      {
+        "email": "mikolaj.matuszny.fake@nordcloud.com",
+        "id": "78944078-c077-11ec-a8c0-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      {
+        "email": "pawel.dzwonkowski@nordcloud.com",
+        "id": "134bf0e6-c7b4-11ec-aad0-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Standard Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      {
+        "email": "piotr@nordcloud.com",
+        "id": "04397170-c546-11ec-aa01-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      {
+        "email": "test.test@nordcloud.com",
+        "id": "a3ec89ee-c615-11ec-aa62-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      {
+        "email": "testuszny@gmail.com",
+        "id": "789561a6-c077-11ec-a8c0-da7ad0900002",
+        "nordcloud_user": false,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      }
+    ],
+    "downgraded_users": [
+      {
+        "email": "matusznymikolaj@gmail.com",
+        "id": "78944079-c077-11ec-a8c0-da7ad0900002",
+        "nordcloud_user": false,
+        "role": "Datadog Read Only Role",
+        "status": "Active",
+        "to_disable": false
+      },
+      {
+        "email": "mikolaj.matuszny+test@nordcloud.com",
+        "id": "7897e8ea-c077-11ec-a8c0-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Standard Role",
+        "status": "Active",
+        "to_disable": false
+      }
+    ],
+    "location": "datadoghq.com",
+    "users": {
+      "maciej.wilczynski@nordcloud.com": {
+        "email": "maciej.wilczynski@nordcloud.com",
+        "id": "7894e5aa-c077-11ec-a8c0-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      "mateusz.schoen@nordcloud.com": {
+        "email": "mateusz.schoen@nordcloud.com",
+        "id": "a1871fb8-c023-11ec-a8aa-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Active",
+        "to_disable": false
+      },
+      "matusznymikolaj@gmail.com": {
+        "email": "matusznymikolaj@gmail.com",
+        "id": "78944079-c077-11ec-a8c0-da7ad0900002",
+        "nordcloud_user": false,
+        "role": "Datadog Read Only Role",
+        "status": "Active",
+        "to_disable": false
+      },
+      "mc-terraform-dd-dev@nordcloud.com": {
+        "email": "mc-terraform-dd-dev@nordcloud.com",
+        "id": "f1a5b369-b0d5-11ec-913b-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Active",
+        "to_disable": false
+      },
+      "mc-terraform-dd@nordcloud.com": {
+        "email": "mc-terraform-dd@nordcloud.com",
+        "id": "298f6dc2-c162-11ec-a903-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      "mikolaj.matuszny+test@nordcloud.com": {
+        "email": "mikolaj.matuszny+test@nordcloud.com",
+        "id": "7897e8ea-c077-11ec-a8c0-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Standard Role",
+        "status": "Active",
+        "to_disable": false
+      },
+      "mikolaj.matuszny.fake@nordcloud.com": {
+        "email": "mikolaj.matuszny.fake@nordcloud.com",
+        "id": "78944078-c077-11ec-a8c0-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      "mikolaj.matuszny@nordcloud.com": {
+        "email": "mikolaj.matuszny@nordcloud.com",
+        "id": "789476d8-c077-11ec-a8c0-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Admin Role",
+        "status": "Active",
+        "to_disable": false
+      },
+      "pawel.dzwonkowski@nordcloud.com": {
+        "email": "pawel.dzwonkowski@nordcloud.com",
+        "id": "134bf0e6-c7b4-11ec-aad0-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Standard Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      "piotr@nordcloud.com": {
+        "email": "piotr@nordcloud.com",
+        "id": "04397170-c546-11ec-aa01-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      "test.test@nordcloud.com": {
+        "email": "test.test@nordcloud.com",
+        "id": "a3ec89ee-c615-11ec-aa62-da7ad0900002",
+        "nordcloud_user": true,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      },
+      "testuszny@gmail.com": {
+        "email": "testuszny@gmail.com",
+        "id": "789561a6-c077-11ec-a8c0-da7ad0900002",
+        "nordcloud_user": false,
+        "role": "Datadog Read Only Role",
+        "status": "Pending",
+        "to_disable": true
+      }
+    }
+  }
+}

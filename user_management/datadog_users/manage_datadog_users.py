@@ -1,4 +1,3 @@
-import os
 from datadog_api_client.v2 import ApiClient, Configuration
 from datadog_api_client.v2.api.roles_api import RolesApi
 from datadog_api_client.v2.api.users_api import UsersApi
@@ -6,20 +5,30 @@ from datadog_api_client.v2.model.relationship_to_user import RelationshipToUser
 from datadog_api_client.v2.model.relationship_to_user_data import RelationshipToUserData
 from datadog_api_client.v2.model.users_type import UsersType
 from .admin_users import ADMIN_USERS
+from functools import cached_property
 
 
 class ManageDatadogUsers:
     def __init__(self, api_key, app_key, datadog_url):
-        os.environ["DD_SITE"] = datadog_url
-        os.environ["DD_API_KEY"] = api_key
-        os.environ["DD_APP_KEY"] = app_key
-        self.api_client = ApiClient(Configuration())
-        self.user_roles = {}
-        self.user_list = []
-        self.users_to_disable = []
-        self.users_to_downgrade = []
+        self.config = Configuration(
+            api_key={"apiKeyAuth": api_key, "appKeyAuth": app_key},
+            server_variables={"site": datadog_url},
+        )
+        self.api_client = ApiClient(self.config)
+        self.user_list = {}
 
-    def get_organization_users(self, org_user_roles):
+    @cached_property
+    def organization_roles(self):
+        user_roles = {}
+        api_instance = RolesApi(self.api_client)
+        raw_roles = api_instance.list_roles()
+
+        for role in raw_roles.data:
+            user_roles[role["id"]] = role["attributes"].name
+
+        return user_roles
+
+    def get_organization_users(self):
         api_instance = UsersApi(self.api_client)
         users = api_instance.list_users(page_size=1000)
 
@@ -28,10 +37,8 @@ class ManageDatadogUsers:
             user_status = user["attributes"].status
             user_role_id = user["relationships"].roles.data[0].id
 
-            if user_role_id in org_user_roles.values():
-                user_role_name = list(org_user_roles.keys())[
-                    list(org_user_roles.values()).index(user_role_id)
-                ]
+            if user_role_id in self.organization_roles.keys():
+                user_role_name = self.organization_roles[user_role_id]
             else:
                 user_role_name = self.get_role_name_by_id(user_role_id)
 
@@ -39,112 +46,81 @@ class ManageDatadogUsers:
                 is_nordcloud_user = True
             else:
                 is_nordcloud_user = False
-                if not user_role_name == "Datadog Read Only Role":
-                    self.users_to_downgrade.append(
-                        {
-                            "email": user_email,
-                            "status": user_status,
-                            "role": user_role_name,
-                            "nordcloud user": is_nordcloud_user,
-                            "id": user.id,
-                        }
-                    )
-
-            if not user_email in ADMIN_USERS and user_role_name == "Datadog Admin Role" and is_nordcloud_user:
-                self.users_to_downgrade.append(
-                    {
-                        "email": user_email,
-                        "status": user_status,
-                        "role": user_role_name,
-                        "nordcloud user": is_nordcloud_user,
-                        "id": user.id,
-                    }
-                )
-
-            if user_status == "Pending":
-                self.users_to_disable.append(
-                    {
-                        "email": user_email,
-                        "status": user_status,
-                        "role": user_role_name,
-                        "nordcloud user": is_nordcloud_user,
-                        "id": user.id,
-                    }
-                )
 
             if user_status != "Disabled":
-                self.user_list.append(
-                    {
-                        "email": user_email,
-                        "status": user_status,
-                        "role": user_role_name,
-                        "nordcloud user": is_nordcloud_user,
-                        "id": user.id,
-                    }
-                )
+                self.user_list[user_email] = {
+                    "id": user.id,
+                    "email": user_email,
+                    "status": user_status,
+                    "role": user_role_name,
+                    "nordcloud_user": is_nordcloud_user,
+                    "to_disable": False,
+                }
 
-        return self.user_list, self.users_to_downgrade, self.users_to_disable
+            if user_status == "Pending":
+                self.user_list[user_email].update({"to_disable": True})
 
-    def get_organization_roles(self):
-        api_instance = RolesApi(self.api_client)
-        raw_roles = api_instance.list_roles()
-
-        for role in raw_roles.data:
-            self.user_roles[role["attributes"].name] = role["id"]
-
-        return self.user_roles
+        return self.user_list
 
     def get_role_name_by_id(self, role_id):
         api_instance = RolesApi(self.api_client)
         role_response = api_instance.get_role(role_id=role_id)
         role_data = role_response.data
-        self.user_roles[role_id] = role_data["attributes"].name
+        self.organization_roles[role_id] = role_data["attributes"].name
 
         return role_data["attributes"].name
 
     def disable_multiple_users(self, user_list):
         disabled_users = []
-        for user in user_list:
-            self.disable_user_account(user["id"])
-            disabled_users.append(user)
+        for user in user_list.values():
+            if user["to_disable"]:
+                self.disable_user_account(user["id"])
+                disabled_users.append(user)
 
         return disabled_users
 
+    def get_role_id(self, role_name):
+        for role_id, name in self.organization_roles.items():
+            if name == role_name:
+                return role_id
+
     def downgrade_external_user_to_read_only(self, user_list):
         downgraded_users = []
-        for user in user_list:
+        for user in user_list.values():
             if (
                 not "@nordcloud.com" in user["email"]
-                and not user["role"] == "Datadog Read Only Role"
+                and not user["to_disable"]
+                and user["role"] != "Datadog Read Only Role"
             ):
                 self.add_user_to_role(
-                    user["id"], self.user_roles["Datadog Read Only Role"]
+                    user["id"], self.get_role_id("Datadog Read Only Role")
                 )
                 self.remove_user_from_role(
-                    user["id"], self.user_roles["Datadog Admin Role"]
+                    user["id"], self.get_role_id("Datadog Admin Role")
                 )
                 self.remove_user_from_role(
-                    user["id"], self.user_roles["Datadog Standard Role"]
+                    user["id"], self.get_role_id("Datadog Standard Role")
                 )
                 user["role"] = "Datadog Read Only Role"
 
-            downgraded_users.append(user)
+                downgraded_users.append(user)
 
         return downgraded_users
 
     def downgrade_internal_admins_to_standard_role(self, user_list):
         downgraded_users = []
-        for user in user_list:
+        for user in user_list.values():
             if (
                 "@nordcloud.com" in user["email"]
-                and not user["email"] in ADMIN_USERS
                 and user["role"] == "Datadog Admin Role"
+                and not user["email"] in ADMIN_USERS
+                and not user["to_disable"]
             ):
                 self.add_user_to_role(
-                    user["id"], self.user_roles["Datadog Standard Role"]
+                    user["id"], self.get_role_id("Datadog Standard Role")
                 )
                 self.remove_user_from_role(
-                    user["id"], self.user_roles["Datadog Admin Role"]
+                    user["id"], self.get_role_id("Datadog Admin Role")
                 )
                 user["role"] = "Datadog Standard Role"
 
@@ -174,11 +150,3 @@ class ManageDatadogUsers:
 
         api_instance = RolesApi(self.api_client)
         api_instance.remove_user_from_role(role_id=role_id, body=body)
-
-    def list_role_users(self):
-        api_instance = RolesApi(self.api_client)
-        for role in self.user_roles.keys():
-            print(f"Listing users of {self.user_roles[role]}")
-            response = api_instance.list_role_users(role_id=role)
-            for user in response.data:
-                print(user["attributes"].email)
