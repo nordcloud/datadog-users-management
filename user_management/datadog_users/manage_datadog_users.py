@@ -19,14 +19,10 @@ class ManageDatadogUsers:
 
     @cached_property
     def organization_roles(self):
-        user_roles = {}
         api_instance = RolesApi(self.api_client)
         raw_roles = api_instance.list_roles()
 
-        for role in raw_roles.data:
-            user_roles[role["id"]] = role["attributes"].name
-
-        return user_roles
+        return {role["id"]: role["attributes"].name for role in raw_roles.data}
 
     def get_organization_users(self):
         api_instance = UsersApi(self.api_client)
@@ -42,23 +38,18 @@ class ManageDatadogUsers:
             else:
                 user_role_name = self.get_role_name_by_id(user_role_id)
 
-            if "@nordcloud.com" in user_email:
-                is_nordcloud_user = True
-            else:
-                is_nordcloud_user = False
-
             if user_status != "Disabled":
                 self.user_list[user_email] = {
                     "id": user.id,
                     "email": user_email,
                     "status": user_status,
                     "role": user_role_name,
-                    "nordcloud_user": is_nordcloud_user,
+                    "nordcloud_user": "@nordcloud.com" in user_email,
                     "to_disable": False,
                 }
 
             if user_status == "Pending":
-                self.user_list[user_email].update({"to_disable": True})
+                self.user_list[user_email]["to_disable"] = True
 
         return self.user_list
 

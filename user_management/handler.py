@@ -1,4 +1,3 @@
-# Copyright 2021 Nordcloud Oy or its affiliates. All Rights Reserved.
 import os
 import logging
 import json
@@ -22,9 +21,7 @@ def mark_leavers_to_disable(all_users: dict[dict], slack_leavers: list[User]):
     leaver_emails = {user.email for user in slack_leavers}
     for person in all_users.values():
         if person["email"] in leaver_emails:
-            person.update({"to_disable": True})
-
-    return all_users
+            person["to_disable"] = True
 
 
 def handler():
