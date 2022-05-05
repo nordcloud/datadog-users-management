@@ -1,0 +1,38 @@
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+__pycache__/
+venv/
+.coverage
+test.json
+# Serverless directories
+.serverless
+
+# JetBrains
+.idea/
+
+# Serverless
+node_modules/
+
+.env
+.env.*
+
+__layers__/
+.requirements.zip
+.cache/
+*.log
+/src/environment.json
